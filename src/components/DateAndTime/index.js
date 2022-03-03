@@ -21,6 +21,9 @@ export const DateAndTime = () => {
   const today = new Date;
   const month = months[today.getMonth()];
   const day = today.getDate();
+  /**
+   * @TODO fazer a hora atualizar usando algum callback temporizado que altera o estado
+   */
   return (
     <View style={styles.wrapper}>
       <Text>
