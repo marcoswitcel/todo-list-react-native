@@ -5,16 +5,17 @@ export default StyleSheet.create({
     width: '100%',
   },
   title: {
-    paddingVertical: 24,
+    paddingBottom: 14,
   },
   list: {
-    paddingVertical: 10,
-    backgroundColor: 'blue',
     display: 'flex',
     height: 'auto',
   },
   listItem: {
-    padding: 5,
-    backgroundColor: 'gray',
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 14,
+    marginBottom: 8,
+    backgroundColor: '#bbb',
   }
 });
