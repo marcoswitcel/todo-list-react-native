@@ -2,10 +2,20 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import styles from './styles';
 
+/**
+ * @typedef {import('../../models/Task.js').default} Task
+ */
 
-export const TaskList = ({ title }) => {
-  const [tasks, setTasks] = useState([{ id: 1, text: 'primeira tarefa', done: false }]);
-  const updateList = (task) => {
+/**
+ * @param {object} param0 
+ * @param {string} param0.title
+ * @param {Task[]} param0.tasks
+ * @param { React.Dispatch<React.SetStateAction<Task[]>>} param0.setTasks
+ * @returns 
+ */
+export const TaskList = ({ title, tasks, setTasks }) => {
+  
+  const toggleTaskDone = (task) => {
     task.done = !task.done;
     setTasks([...tasks]);
   }
@@ -19,7 +29,7 @@ export const TaskList = ({ title }) => {
         {tasks.map((task) => (
           <Text
             style={[styles.listItem, { textDecorationLine: task.done ? 'line-through' : 'none', textDecorationStyle: 'solid' }]}
-            onPress={() => updateList(task)}
+            onPress={() => toggleTaskDone(task)}
             key={task.id}
           >
             {task.text}

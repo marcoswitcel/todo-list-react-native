@@ -1,16 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
 import DateAndTime from './components/DateAndTime';
 import TaskList from './components/TaskList';
+import Task from './models/Task';
+
 
 export default function App() {
-  
+  const [tasks, setTasks] = useState([]);
+  const updateList = (task) => {
+    setTasks([...tasks, task]);
+  }
+  const handlePress = () => {
+    const task = new Task('tarefa');
+    updateList(task);
+    console.log(task.id);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
       <DateAndTime />
-      <TaskList title="Lista aqui"></TaskList>
+      <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks}></TaskList>
+      <Button title='Adicionar item' onPress={handlePress} />
     </SafeAreaView>
   );
 }
