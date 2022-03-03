@@ -1,0 +1,6 @@
+
+## Rodando
+
+```cmd
+expo start
+```
