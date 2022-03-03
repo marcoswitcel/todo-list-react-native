@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Button, SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import Button from './components/Button';
 import DateAndTime from './components/DateAndTime';
 import TaskList from './components/TaskList';
 import Task from './models/Task';
@@ -22,7 +23,7 @@ export default function App() {
       <StatusBar style='auto' />
       <DateAndTime />
       <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks}></TaskList>
-      <Button title='Adicionar item' onPress={handlePress} />
+      <Button text='Adicionar item' onPress={handlePress} />
     </SafeAreaView>
   );
 }
