@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 /**
@@ -27,13 +27,17 @@ export const TaskList = ({ title, tasks, setTasks }) => {
       </View>
       <View style={styles.list}>
         {tasks.map((task) => (
-          <Text
-            style={[styles.listItem, { textDecorationLine: task.done ? 'line-through' : 'none', textDecorationStyle: 'solid' }]}
+          <TouchableOpacity
+            style={[styles.listItem, task.done ? styles.listItemMarked : styles.listItemUnmarked ]}
             onPress={() => toggleTaskDone(task)}
             key={task.id}
           >
-            {task.text}
-          </Text>
+            <Text
+              style={{ textDecorationLine: task.done ? 'line-through' : 'none', textDecorationStyle: 'solid' }}
+            >
+              {task.text}
+            </Text>
+          </TouchableOpacity>
         ))}
       </View>
     </View>

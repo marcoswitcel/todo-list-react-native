@@ -12,10 +12,15 @@ export default StyleSheet.create({
     height: 'auto',
   },
   listItem: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 14,
-    marginBottom: 8,
-    backgroundColor: '#bbb',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 16,
+    marginBottom: 10,
+  },
+  listItemMarked: {
+    backgroundColor: '#999',
+  },
+  listItemUnmarked: {
+    backgroundColor: '#ccc',
   }
 });
