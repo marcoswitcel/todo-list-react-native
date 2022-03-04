@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { TextInput, Keyboard, Modal, Pressable, SafeAreaView, StyleSheet, View } from 'react-native';
+import React, { useState, useEffect} from 'react';
+import { TextInput, Keyboard, Modal, Pressable, SafeAreaView, StyleSheet, BackHandler, Alert } from 'react-native';
 import Button from './components/Button';
 import DateAndTime from './components/DateAndTime';
 import TaskList from './components/TaskList';
@@ -11,6 +11,30 @@ export default function App() {
   const [tasks, setTasks] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [text, setText] = useState('');
+
+  const handleBackPress = () => {
+    Alert.alert('Desejar realmente sair?', 'Essa ação fechará o aplicativo', [
+      {
+        text: 'Cancelar',
+        onPress: () => null,
+        style: 'cancel'
+      },
+      { text: 'Sair', onPress: () => BackHandler.exitApp() }
+    ]);
+    return true;
+  };
+
+  /**
+   * @url https://reactnative.dev/docs/backhandler
+   * @note BackHandler só funciona no Android
+   */
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
+    };
+  }, []);
+
   const updateList = (task) => {
     setTasks([...tasks, task]);
   }
@@ -19,11 +43,17 @@ export default function App() {
     setModalVisible(true);
   }
   const handleModalDismiss = () => {
+    setText('');
+    setModalVisible(false);
+  }
+
+  const handleSubmit = () => {
+    if (text === '') return;
+
     const task = new Task(text);
     updateList(task);
-
     setText('');
-    setModalVisible(!modalVisible);
+    setModalVisible(false);
   }
 
   return (
@@ -37,11 +67,13 @@ export default function App() {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setText('');
+          setModalVisible(false);
         }}
       >
         <Pressable style={{ backgroundColor: 'rgba(0,0,0,.4)', flex: 1 }} onPress={handleModalDismiss}>
           <TextInput
+            onSubmitEditing={handleSubmit}
             style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10 }}
             onChange={(event) => setText(event.nativeEvent.text)}
             value={text}
