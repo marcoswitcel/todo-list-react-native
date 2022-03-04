@@ -1,6 +1,10 @@
+# Aplicativo de criação de listas feito com React Native
 
-## Rodando
+## Pendências
 
-```cmd
-expo start
-```
+- [ ] Melhorar o `README.md`
+- [ ] Trazer a lista de recursos atualizada do app
+
+## Preparando as ferramentas de desenvolvimento
+
+Pendente
