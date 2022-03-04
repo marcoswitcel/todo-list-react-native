@@ -12,8 +12,9 @@ export default StyleSheet.create({
     height: 'auto',
   },
   listItem: {
+    flexDirection: 'row',
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     borderRadius: 16,
     marginBottom: 10,
   },
@@ -22,5 +23,12 @@ export default StyleSheet.create({
   },
   listItemUnmarked: {
     backgroundColor: '#ccc',
-  }
+  },
+  listItemText: {
+    flex: 1
+  },
+  icon: {
+    marginRight: 5,
+    alignSelf: 'center'
+  },
 });

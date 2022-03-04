@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import styles from './styles';
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 /**
  * @typedef {import('../../models/Task.js').default} Task
@@ -32,8 +33,12 @@ export const TaskList = ({ title, tasks, setTasks }) => {
             onPress={() => toggleTaskDone(task)}
             key={task.id}
           >
+            {task.done
+            ? <MaterialIcons style={styles.icon} name='radio-button-checked' size={16} color='white' />
+            : <MaterialIcons style={styles.icon} name='radio-button-unchecked' size={16} color='white' />
+            }
             <Text
-              style={{ textDecorationLine: task.done ? 'line-through' : 'none', textDecorationStyle: 'solid' }}
+              style={[styles.listItemText, { textDecorationLine: task.done ? 'line-through' : 'none', textDecorationStyle: 'solid' }]}
             >
               {task.text}
             </Text>
