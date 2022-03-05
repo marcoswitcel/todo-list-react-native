@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { TextInput, Modal, Pressable  } from 'react-native';
 import Task from '../../models/Task.js';
 import styles from './styles.js';
@@ -13,11 +13,13 @@ import styles from './styles.js';
  */
 export const TaskModal = ({ modalVisible, setModalVisible, addTask }) => {
   const [text, setText] = useState('');
+  /** @type {React.MutableRefObject<TextInput>} */
+  const inputRef = useRef(null);
 
   const handleModalDismiss = () => {
     setText('');
     setModalVisible(false);
-  }
+  };
 
   const handleSubmit = () => {
     if (text === '') return;
@@ -26,12 +28,13 @@ export const TaskModal = ({ modalVisible, setModalVisible, addTask }) => {
     addTask(task);
     setText('');
     setModalVisible(false);
-  }
+  };
   
   return (
     <Modal
       animationType='fade'
       transparent={true}
+      onShow={() => inputRef.current.focus()}
       visible={modalVisible}
       onRequestClose={() => {
         setText('');
@@ -40,6 +43,7 @@ export const TaskModal = ({ modalVisible, setModalVisible, addTask }) => {
     >
       <Pressable style={styles.pressableOverlayArea} onPress={handleModalDismiss}>
         <TextInput
+          ref={inputRef}
           onSubmitEditing={handleSubmit}
           style={styles.textInput}
           onChange={(event) => setText(event.nativeEvent.text)}
