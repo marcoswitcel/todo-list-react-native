@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect} from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, BackHandler, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import Button from './components/Button';
 import DateAndTime from './components/DateAndTime';
 import TaskList from './components/TaskList';
 import TaskModal from './components/TaskModal';
+import UseBackHandlerIfAndroid from './hooks/UseBackHandlerIfAndroid';
 import Task from './models/Task';
 
 
@@ -13,28 +14,7 @@ export default function App() {
   const [ tasks, setTasks ] = useState([]);
   const [ modalVisible, setModalVisible ] = useState(false);
 
-  const handleBackPress = () => {
-    Alert.alert('Desejar realmente sair?', 'Essa ação fechará o aplicativo', [
-      {
-        text: 'Cancelar',
-        onPress: () => null,
-        style: 'cancel'
-      },
-      { text: 'Sair', onPress: () => BackHandler.exitApp() }
-    ]);
-    return true;
-  };
-
-  /**
-   * @url https://reactnative.dev/docs/backhandler
-   * @note BackHandler só funciona no Android
-   */
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-    };
-  }, []);
+  UseBackHandlerIfAndroid('Desejar realmente sair?', 'Essa ação fechará o aplicativo');
 
   const handlePress = () => {
     setModalVisible(true);
