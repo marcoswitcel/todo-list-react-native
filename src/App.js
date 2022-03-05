@@ -1,14 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect} from 'react';
-import { TextInput, Keyboard, Modal, Pressable, SafeAreaView, StyleSheet, BackHandler, Alert } from 'react-native';
+import { TextInput, Keyboard, Modal, Pressable, SafeAreaView, ScrollView, StyleSheet, BackHandler, Alert } from 'react-native';
 import Button from './components/Button';
 import DateAndTime from './components/DateAndTime';
 import TaskList from './components/TaskList';
+import GlobalContextProvider, { GlobalAppContext } from './contexts/GlobalContext';
 import Task from './models/Task';
 
 
 export default function App() {
-  const [tasks, setTasks] = useState([]);
+  // @TODO desfazer aqui
+
   const [modalVisible, setModalVisible] = useState(false);
   const [text, setText] = useState('');
 
@@ -35,9 +37,7 @@ export default function App() {
     };
   }, []);
 
-  const updateList = (task) => {
-    setTasks([...tasks, task]);
-  }
+
   const handlePress = () => {
     
     setModalVisible(true);
@@ -47,40 +47,52 @@ export default function App() {
     setModalVisible(false);
   }
 
-  const handleSubmit = () => {
-    if (text === '') return;
-
-    const task = new Task(text);
-    updateList(task);
-    setText('');
-    setModalVisible(false);
-  }
-
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style='auto' />
-      <DateAndTime />
-      <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks}></TaskList>
-      <Button text='Adicionar item' onPress={handlePress} />
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setText('');
-          setModalVisible(false);
-        }}
-      >
-        <Pressable style={{ backgroundColor: 'rgba(0,0,0,.4)', flex: 1 }} onPress={handleModalDismiss}>
-          <TextInput
-            onSubmitEditing={handleSubmit}
-            style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10 }}
-            onChange={(event) => setText(event.nativeEvent.text)}
-            value={text}
-          />
-        </Pressable>
-      </Modal>
-    </SafeAreaView>
+    <GlobalContextProvider>
+      <SafeAreaView style={styles.container}>
+        <StatusBar style='light' backgroundColor='blue' />
+        <ScrollView style={styles.scrollView}>
+          <DateAndTime />
+          <TaskList title='Lista'/>
+        </ScrollView>
+        <Button text='Adicionar item' onPress={handlePress} />
+        <GlobalAppContext.Consumer>
+          {(contex) => {
+            const updateList = (task) => {
+              contex.setTasks([...contex.tasks, task]);
+            }
+            const handleSubmit = () => {
+              if (text === '') return;
+
+              const task = new Task(text);
+              updateList(task);
+              setText('');
+              setModalVisible(false);
+            }
+            return (
+              <Modal
+                animationType='fade'
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  setText('');
+                  setModalVisible(false);
+                }}
+              >
+                <Pressable style={{ backgroundColor: 'rgba(0,0,0,.4)', flex: 1 }} onPress={handleModalDismiss}>
+                  <TextInput
+                    onSubmitEditing={handleSubmit}
+                    style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10 }}
+                    onChange={(event) => setText(event.nativeEvent.text)}
+                    value={text}
+                  />
+                </Pressable>
+              </Modal>
+            );
+          }}
+        </GlobalAppContext.Consumer>
+      </SafeAreaView>
+    </GlobalContextProvider>
   );
 }
 
@@ -88,9 +100,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#eee',
-    padding: 10,
-    paddingTop: 70,
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+    padding: 10,
+    paddingTop: 70,
+
   },
 });
