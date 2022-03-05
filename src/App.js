@@ -1,60 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect} from 'react';
-import { TextInput, Modal, Pressable, SafeAreaView, ScrollView, StyleSheet, BackHandler, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import Button from './components/Button';
 import DateAndTime from './components/DateAndTime';
 import TaskList from './components/TaskList';
+import TaskModal from './components/TaskModal';
+import UseBackHandlerIfAndroid from './hooks/UseBackHandlerIfAndroid';
 import Task from './models/Task';
 
 
 export default function App() {
-  const [tasks, setTasks] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [text, setText] = useState('');
+  /** @type {[ Task[], React.Dispatch<React.SetStateAction<Task[]>> ]} */
+  const [ tasks, setTasks ] = useState([]);
+  const [ modalVisible, setModalVisible ] = useState(false);
 
-  const handleBackPress = () => {
-    Alert.alert('Desejar realmente sair?', 'Essa ação fechará o aplicativo', [
-      {
-        text: 'Cancelar',
-        onPress: () => null,
-        style: 'cancel'
-      },
-      { text: 'Sair', onPress: () => BackHandler.exitApp() }
-    ]);
-    return true;
+  UseBackHandlerIfAndroid('Desejar realmente sair?', 'Essa ação fechará o aplicativo');
+
+  const handlePress = () => {
+    setModalVisible(true);
   };
 
-  /**
-   * @url https://reactnative.dev/docs/backhandler
-   * @note BackHandler só funciona no Android
-   */
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', handleBackPress);
-    };
-  }, []);
-
-  const updateList = (task) => {
+  const addTask = (task) => {
     setTasks([...tasks, task]);
-  }
-  const handlePress = () => {
-    
-    setModalVisible(true);
-  }
-  const handleModalDismiss = () => {
-    setText('');
-    setModalVisible(false);
-  }
-
-  const handleSubmit = () => {
-    if (text === '') return;
-
-    const task = new Task(text);
-    updateList(task);
-    setText('');
-    setModalVisible(false);
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,24 +32,7 @@ export default function App() {
         <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks}></TaskList>
       </ScrollView>
       <Button text='Adicionar item' onPress={handlePress} />
-      <Modal
-        animationType='fade'
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setText('');
-          setModalVisible(false);
-        }}
-      >
-        <Pressable style={{ backgroundColor: 'rgba(0,0,0,.4)', flex: 1 }} onPress={handleModalDismiss}>
-          <TextInput
-            onSubmitEditing={handleSubmit}
-            style={{ backgroundColor: 'white', borderRadius: 10, margin: 10, padding: 10 }}
-            onChange={(event) => setText(event.nativeEvent.text)}
-            value={text}
-          />
-        </Pressable>
-      </Modal>
+      <TaskModal addTask={addTask} modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </SafeAreaView>
   );
 }
