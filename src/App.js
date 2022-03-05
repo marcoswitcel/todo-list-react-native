@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect} from 'react';
-import { TextInput, Keyboard, Modal, Pressable, SafeAreaView, StyleSheet, BackHandler, Alert } from 'react-native';
+import { TextInput, Modal, Pressable, SafeAreaView, ScrollView, StyleSheet, BackHandler, Alert } from 'react-native';
 import Button from './components/Button';
 import DateAndTime from './components/DateAndTime';
 import TaskList from './components/TaskList';
@@ -59,8 +59,10 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='auto' />
-      <DateAndTime />
-      <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks}></TaskList>
+      <ScrollView style={styles.scrollView}>
+        <DateAndTime />
+        <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks}></TaskList>
+      </ScrollView>
       <Button text='Adicionar item' onPress={handlePress} />
       <Modal
         animationType='fade'
@@ -88,9 +90,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#eee',
-    padding: 10,
-    paddingTop: 70,
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  scrollView: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 10,
+    paddingTop: 70,
   },
 });

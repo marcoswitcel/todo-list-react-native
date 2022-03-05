@@ -10,6 +10,7 @@ export default StyleSheet.create({
   list: {
     display: 'flex',
     height: 'auto',
+    paddingBottom: 70,
   },
   listItem: {
     flexDirection: 'row',
