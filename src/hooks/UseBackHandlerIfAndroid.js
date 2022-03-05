@@ -6,6 +6,9 @@ import { Platform, BackHandler, Alert } from 'react-native';
  * retorno no Android. O hook só faz algo no Android, em outras plataformas ela
  * retorna logo no começo, sendo uma função sem operação.
  * 
+ * @note https://pt-br.reactjs.org/docs/hooks-custom.html
+ * @note https://reactnative.dev/docs/platform-specific-code
+ * 
  * @param {string} title
  * @param {string} [message]
  * @returns {void}
