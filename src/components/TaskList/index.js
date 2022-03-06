@@ -11,10 +11,11 @@ import styles from './styles';
  * @param {object} param0 
  * @param {string} param0.title
  * @param {Task[]} param0.tasks
- * @param { React.Dispatch<React.SetStateAction<Task[]>>} param0.setTasks
+ * @param {React.Dispatch<React.SetStateAction<Task[]>>} param0.setTasks
+ * @param {React.Dispatch<React.SetStateAction<Task>>} param0.editTaskAction Ação que permite a edição de uma tarefa
  * @returns 
  */
-export const TaskList = ({ title, tasks, setTasks }) => {
+export const TaskList = ({ title, tasks, setTasks, editTaskAction }) => {
   
   const toggleTaskDone = (task) => {
     task.done = !task.done;
@@ -32,6 +33,11 @@ export const TaskList = ({ title, tasks, setTasks }) => {
         text: 'Deletar',
         onPress: () => removeTaskFromList(task),
         style: 'destructive',
+      },
+      {
+        text: 'Editar',
+        onPress: () => editTaskAction(task),
+        style: 'default',
       },
       {
         text: 'Cancelar',
