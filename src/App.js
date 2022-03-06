@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import Button from './components/Button';
 import DateAndTime from './components/DateAndTime';
@@ -13,8 +13,22 @@ export default function App() {
   /** @type {[ Task[], React.Dispatch<React.SetStateAction<Task[]>> ]} */
   const [ tasks, setTasks ] = useState([]);
   const [ modalVisible, setModalVisible ] = useState(false);
+  /** @type {[ Task, React.Dispatch<React.SetStateAction<Task>> ]} */
+  const [ editableTask, setEditableTask ] = useState(null);
 
   UseBackHandlerIfAndroid('Desejar realmente sair?', 'Essa ação fechará o aplicativo');
+
+  useEffect(() => {
+    if (!modalVisible) {
+      setEditableTask(null);
+    }
+  }, [modalVisible]);
+
+  useEffect(() => {
+    if (editableTask) {
+      setModalVisible(true);
+    }
+  }, [editableTask]);
 
   const handlePress = () => {
     setModalVisible(true);
@@ -24,15 +38,29 @@ export default function App() {
     setTasks([...tasks, task]);
   };
 
+  /**
+   * Ação que permite sinalizar que uma tarefa teve seu texto atualizado
+   * Isso deve causar o rerender
+   */
+  const taskEditedAction = () => {
+    setTasks([...tasks]);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='auto' />
       <ScrollView style={styles.scrollView}>
         <DateAndTime />
-        <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks}></TaskList>
+        <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks} editTaskAction={setEditableTask} />
       </ScrollView>
       <Button text='Adicionar item' onPress={handlePress} />
-      <TaskModal addTask={addTask} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <TaskModal
+        addTask={addTask}
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        editableTask={editableTask}
+        taskEditedAction={taskEditedAction}
+      />
     </SafeAreaView>
   );
 }
