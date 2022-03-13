@@ -51,7 +51,7 @@ export default function App() {
       <StatusBar style='auto' />
       <ScrollView style={styles.scrollView}>
         <DateAndTime />
-        <TaskList title='Lista aqui' tasks={tasks} setTasks={setTasks} editTaskAction={setEditableTask} />
+        <TaskList title='Minha Lista' tasks={tasks} setTasks={setTasks} editTaskAction={setEditableTask} />
       </ScrollView>
       <Button text='Adicionar item' onPress={handlePress} />
       <TaskModal

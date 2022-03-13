@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, Alert, Share } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
-import styles from './styles';
+import { formatToShare } from '../../utils/utils.js';
+import styles from './styles.js';
 
 /**
  * @typedef {import('../../models/Task.js').default} Task
@@ -21,9 +22,26 @@ export const TaskList = ({ title, tasks, setTasks, editTaskAction }) => {
     task.done = !task.done;
     setTasks([...tasks]);
   };
+
+  /**
+   * Ação que requisita a tela de compartilhamento e formata a lista atual para
+   * ser compartilhada.
+   * 
+   * @async
+   */
+  const shareAction = async () => {
+    try {
+      const result = await Share.share({
+        message: formatToShare(title, tasks),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
   /**
    * Menu de opções extras
+   * 
    * @param {Task} task 
    */
   const openExtraOptions = (task) => {
@@ -60,8 +78,11 @@ export const TaskList = ({ title, tasks, setTasks, editTaskAction }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.title}>
+      <View style={styles.header}>
         <Text>{title}</Text>
+        <TouchableOpacity style={styles.shareButton} onPress={shareAction}>
+          <MaterialIcons name='share' size={20} color='black' />
+        </TouchableOpacity>
       </View>
       <View style={styles.list}>
         {tasks.map((task) => (
