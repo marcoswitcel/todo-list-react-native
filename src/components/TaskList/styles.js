@@ -4,8 +4,15 @@ export default StyleSheet.create({
   container: {
     width: '100%',
   },
-  title: {
-    paddingBottom: 14,
+  header: {
+    marginBottom: 14,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  shareButton: {
+    padding: 5,
+    paddingEnd: 10,
   },
   list: {
     display: 'flex',
