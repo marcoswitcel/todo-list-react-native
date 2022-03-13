@@ -4,7 +4,7 @@ Aplicativo de criação e gestão de listas diversas desenvolvido com [React Nat
 
 ## Rodando e testando
 
-O primeiro passo é instalar a ferramenta de linha de comando `Expo`(CLI).
+O primeiro passo é instalar a ferramenta de linha de comando `Expo(CLI)`.
 
 Segue uma documentação detalhada do ambiente e processo de instalação [link do passo a passo oficial do Expo](https://docs.expo.dev/get-started/installation/), ou caso já tenha o NodeJS e NPM instalado o comando a baixo já realizará a instalação:
 
@@ -18,7 +18,7 @@ Exemplo completo abaixo:
 
 ```bash
 # Navegando para a pasta raíz do projeto
-cd <pasta-deste-repositorio>
+cd todo-list-react-native
 # instalando as dependências
 npm install
 # rodando o comando que sobe o server de desenvolvimento
