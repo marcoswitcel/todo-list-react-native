@@ -4,9 +4,11 @@ Aplicativo de criação e gestão de listas diversas desenvolvido com [React Nat
 
 ## Rodando e testando
 
-O primeiro passo é instalar a ferramenta de linha de comando `Expo(CLI)`.
+O primeiro passo é instalar a ferramenta de linha de comando do `Expo`.
 
-Segue uma documentação detalhada do ambiente e processo de instalação [link do passo a passo oficial do Expo](https://docs.expo.dev/get-started/installation/), ou caso já tenha o NodeJS e NPM instalado o comando a baixo já realizará a instalação:
+Segue a documentação detalhada do ambiente e processo de instalação [link do passo a passo oficial do Expo](https://docs.expo.dev/get-started/installation/).
+
+Caso o NodeJS já esteja instalado pode executar o comando abaixo para realizar a instalação `Expo(CLI)`:
 
 ```bash
 npm install --global expo-cli
@@ -26,7 +28,7 @@ expo start
 ```
 
 Uma forma de testar o aplicativo é instalando o  [App do Expo na Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt_BR&gl=US), ou na Apple Store se tiver um Iphone.
-A partir do app do expo no seu celular é só scanear o QRCode que aparecerá na janela do terminal onde você rodou `expo start`.
+A partir do app do expo no seu celular é só scanear o QRCode que aparecerá na janela do terminal onde você digitou o comando `expo start`.
 
 # Referências
 
